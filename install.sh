@@ -9,6 +9,12 @@ echo "You need to be root to run this!"
 fi
 
 ##
+## is this Ubuntu 10.04 (Lucid)
+##
+lsboutput="DISTRIB_RELEASE=10.04"
+if [[ `cat /etc/lsb-release | grep 'DISTRIB_RELEASE'` != "$lsboutput" ]]; then exit 0; else echo "win"; fi
+
+##
 ## fix /tmp issues when compiling pcre and nginx
 ##
 mkdir ~/tmp
