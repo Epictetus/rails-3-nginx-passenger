@@ -6,7 +6,7 @@ Rails 3.0 is ponies and rainbows! Well, kinda. I've never been into Rails much b
 </ul>
 The newest version of Rails came out on August 29 so I decided to jump right in. Since Ruby 1.8.6 and earlier are no longer supported, we'll be using RVM in this article. <a href="http://rvm.beginrescueend.com/" target="_blank">RVM</a> is a command line tool which allows us to easily install, manage and  work with multiple ruby environments from interpreters to sets of gems.
 
-Before we get started, we'll be using a fresh (ve) Server from <a href="http://mediatemple.net/" target="_blank">(mt) Media Temple</a> running Ubuntu 10.04 Lucid Lynx for the install. I should also note that we're not installing a full-featured application -- this is simply a tutorial on how to get the Rails 3.0 test application up and running with Nginx + Passenger.
+Before you jump in, I've tested this on a fresh (ve) Server from <a href="http://mediatemple.net/" target="_blank">(mt) Media Temple</a> running Ubuntu 10.04 Lucid Lynx. I should also note that we're not installing a full-featured application -- this is simply a tutorial on how to get the Rails 3.0 test application up and running with Nginx + Passenger.
 
 <strong>Prerequisites</strong>: You'll need these to get through the entire install process for RVM, Nginx and <a href="http://www.modrails.com/">Phusion Passenger</a> (mod_rails).
 
