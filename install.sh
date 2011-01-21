@@ -12,7 +12,10 @@ fi
 ## is this Ubuntu 10.04 (Lucid)?
 ##
 lsboutput="DISTRIB_RELEASE=10.04"
-if [[ `cat /etc/lsb-release | grep 'DISTRIB_RELEASE'` != "$lsboutput" ]]; then exit 0; else echo "win"; fi
+if [[ `cat /etc/lsb-release | grep 'DISTRIB_RELEASE'` != "$lsboutput" ]]; then
+echo "You need Ubuntu 10.04 Lucid Lynx to run this!"
+  exit 0
+fi
 
 ##
 ## fix /tmp issues when compiling pcre and nginx
@@ -24,8 +27,7 @@ mount --bind ~/tmp /tmp
 ## update and install dependencies
 ##
 aptitude -y update && aptitude -y safe-upgrade
-aptitude -y install curl git-core build-essential zlib1g-dev libssl-dev libreadline5-dev libc6 libpcre3 libssl0.9.8 zlib1g
-
+aptitude -y install curl git-core build-essential zlib1g-dev libssl-dev libreadline5-dev libc6 libpcre3 libssl0.9.8 zlib1g libcurl4-openssl-dev
 ##
 ## install rvm
 ##
@@ -37,7 +39,10 @@ source /root/.bashrc && source /usr/local/lib/rvm
 ## sanity check
 ##
 rvmoutput="rvm is a function"
-if [[ `type rvm | head -n1` != "$rvmoutput" ]]; then exit 0; else echo "win"; fi
+if [[ `type rvm | head -n1` != "$rvmoutput" ]]; then
+echo "Something went wrong. RVM must be a function!"
+  exit 0
+fi
 
 ##
 ## install ruby 1.9.2 and make it the default
@@ -45,6 +50,23 @@ if [[ `type rvm | head -n1` != "$rvmoutput" ]]; then exit 0; else echo "win"; fi
 rvm install 1.9.2
 rvm --default ruby-1.9.2
 
+##
+## create sane .gemrc
+##
+touch ~/.gemrc
+cat <<EOF > ~/.gemrc
+---
+:verbose: true
+:sources:
+- http://gems.rubyforge.org/
+- http://gems.github.com/
+:update_sources: true
+:backtrace: false
+:bulk_threshold: 1000
+:benchmark: false
+gem: --no-ri --no-rdoc
+
+EOF
 ##
 ## install rails gem
 ##
