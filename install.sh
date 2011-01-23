@@ -198,8 +198,8 @@ http {
 EOF
 
 echo "done..."
-/etc/init.d/nginx stop >> ~/install.log && sleep 5 >> ~/install.log
-/etc/init.d/nginx start
+/etc/init.d/nginx stop >> ~/install.log && sleep 5
+/etc/init.d/nginx start >> ~/install.log
 
 ##
 ## Finishing message
