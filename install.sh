@@ -29,17 +29,17 @@ mkdir ~/tmp
 mount --bind ~/tmp /tmp
 
 ##
+## Set up install.log
+##
+touch ~/install.log
+
+##
 ## Fix locales
 ##
 echo "Configuring locales..."
 echo "en_US.UTF-8 UTF-8" > /var/lib/locales/supported.d/local
-dpkg-reconfigure locales
+dpkg-reconfigure locales >> ~/install.log
 echo "done..."
-
-##
-## Set up install.log
-##
-touch ~/install.log
 
 ##
 ## Update and install dependencies
@@ -148,8 +148,10 @@ echo "done..."
 ##
 echo "Configuring Nginx..."
 sed -i".bak" '47d' /opt/nginx/conf/nginx.conf
+sed -i '42 a\
+            passenger_enabled on;' /opt/nginx/conf/nginx.conf
 sed -i '47 a\
-            root   /opt/nginx/html/testapp/public/;' /opt/nginx/conf/nginx.conf
+            root   /opt/nginx/html/testapp/public;' /opt/nginx/conf/nginx.conf
 /etc/init.d/nginx start >> ~/install.log
 echo "done..."
 
