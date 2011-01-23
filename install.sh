@@ -25,6 +25,7 @@ fi
 ##
 ## Fix /tmp issues when compiling pcre and nginx
 ##
+chmod 777 /tmp
 mkdir ~/tmp
 mount --bind ~/tmp /tmp
 
@@ -197,6 +198,8 @@ http {
 EOF
 
 echo "done..."
+/etc/init.d/nginx stop >> ~/install.log && sleep 5 >> ~/install.log
+/etc/init.d/nginx start
 
 ##
 ## Finishing message
