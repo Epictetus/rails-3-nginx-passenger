@@ -123,7 +123,7 @@ gem install passenger >> ~/install.log
 echo "done..."
 
 ##
-## Set up nginx
+## Install nginx
 ##
 echo "Installing Nginx + Phusion Passenger..."
 cd /root && wget -O nginx-0.8.54.tar.gz http://sysoev.ru/nginx/nginx-0.8.54.tar.gz >> ~/install.log
@@ -147,12 +147,55 @@ echo "done..."
 ## Edit nginx.conf to use new document root
 ##
 echo "Configuring Nginx..."
-sed -i".bak" '47d' /opt/nginx/conf/nginx.conf
-sed -i '42 a\
-            passenger_enabled on;' /opt/nginx/conf/nginx.conf
-sed -i '47 a\
-            root   /opt/nginx/html/testapp/public;' /opt/nginx/conf/nginx.conf
-/etc/init.d/nginx start >> ~/install.log
+passenger_root=`which passenger`
+passenger_ruby=`which ruby`
+mv /opt/nginx/conf/nginx.conf /opt/nginx/conf/nginx.conf.original
+touch /opt/nginx/conf/nginx.conf
+cat <<EOF > /opt/nginx/conf/nginx.conf
+worker_processes 1;
+
+error_log  /opt/nginx/logs/error.log;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+    use epoll;
+}
+
+http {
+    passenger_root $GEM_HOME/gems/$passenger_gem;
+    passenger_ruby $passenger_ruby;
+
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    log_format  testapp  '\$remote_addr - \$remote_user [\$time_local] "\$request" '
+                         '\$status \$body_bytes_sent "\$http_referer" '
+                         '"\$http_user_agent" "\$http_x_forwarded_for"';
+
+    access_log         /opt/nginx/logs/access.log  testapp;
+
+    sendfile           on;
+    tcp_nodelay        on;
+    keepalive_timeout  15;
+
+    gzip  on;
+    gzip_disable "MSIE [1-6]\.(?!.*SV1)";
+
+    server {
+        listen       80;
+        server_name  localhost;
+        passenger_enabled on;
+        passenger_use_global_queue on;
+        root   /opt/nginx/html/testapp/public;
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /opt/nginx/html/testapp/public;
+        }
+    }
+}
+EOF
+
 echo "done..."
 
 ##
