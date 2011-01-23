@@ -147,7 +147,7 @@ echo "done..."
 ## Edit nginx.conf to use new document root
 ##
 echo "Configuring Nginx..."
-passenger_root=`which passenger`
+passenger_gem=`cd $GEM_HOME/gems && ls -al | grep 'passenger' | awk '{ print $9}'`
 passenger_ruby=`which ruby`
 mv /opt/nginx/conf/nginx.conf /opt/nginx/conf/nginx.conf.original
 touch /opt/nginx/conf/nginx.conf
