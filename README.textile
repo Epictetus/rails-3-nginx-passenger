@@ -65,4 +65,4 @@ sed -i '47 a\
 
 The spacing looks a little weird in that middle sed command for a purpose -- to keep the syntax of the nginx.conf file consistent. Now that we've restarted Nginx, we should see the 'Welcome aboard: You’re riding Ruby on Rails!' image:
 
-p=.<img title="You’re riding Ruby on Rails!" src="http://constantshift.com/wp-content/uploads/2010/09/rails3.jpg" alt="You’re riding Ruby on Rails!" width="567" height="271" />
+<img title="You’re riding Ruby on Rails!" src="http://constantshift.com/wp-content/uploads/2010/09/rails3.jpg" alt="You’re riding Ruby on Rails!" width="567" height="271" />
